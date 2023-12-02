@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "Nintendo 3DS (devkitPro for Windows)",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\devkitPro\\libctru\\include\\**",
+                "C:\\devkitPro\\devkitARM\\include\\**",
+                "C:\\devkitPro\\devkitARM\\arm-none-eabi\\include\\**"
+            ],
+            "defines": [
+                "ARM11"
+            ],
+            "compilerPath": "C:\\devkitPro\\devkitARM\\bin\\arm-none-eabi-gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "Nintendo 3DS (devkitPro for Linux)",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/devkitpro/libctru/include/**",
+                "/opt/devkitpro/devkitARM/include/**",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
+            ],
+            "defines": [
+                "ARM11"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
