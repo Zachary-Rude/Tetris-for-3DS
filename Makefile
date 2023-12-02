@@ -198,6 +198,8 @@ else
 #---------------------------------------------------------------------------------
 all: $(OUTPUT).cia $(OUTPUT).elf $(OUTPUT).3dsx
 
+$(OUTPUT).3dsx	:	$(OUTPUT).elf $(OUTPUT).smdh
+
 $(OUTPUT).elf	:	$(OFILES)
 
 $(OUTPUT).cia	:	$(OUTPUT).elf $(OUTPUT).smdh

@@ -24,7 +24,6 @@ using namespace std;
 #include "cBlock.h"
 static u32 brightnessSub;
 Handle threadHandle, threadRequest;
-volatile bool threadExit = false;
 
 void Init();
 void Shutdown();
@@ -52,8 +51,8 @@ void memset(unsigned char * s, int c, size_t len)
 
 void disableBacklight() {
 	u32 off = 0;
-	GSPGPU_ReadHWRegs(NULL, REG_LCDBACKLIGHTSUB, &brightnessSub, 4);
-	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTSUB, &off, 4);
+	GSPGPU_ReadHWRegs(NULL, REG_LCDBACKLIGHTSUB, (u8)((u32)&off));
+	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTSUB, (u8)((u32)&off));
 }
 
 int				    g_Timer;             // Our timer is just an integer
@@ -75,7 +74,6 @@ int main(int argc, char **argv)
 {
 	aptInit();
 	gfxInitDefault();
-	initCfgu();
 	gfxSet3D(false);
 	ClearScreenBuffer(GFX_TOP);
 	consoleInit(GFX_BOTTOM, NULL);
@@ -90,7 +88,6 @@ int main(int argc, char **argv)
 	}
 	
 	Shutdown();
-	exitCfgu();
 	gfxExit();
 	aptExit();
 	return 0;
@@ -258,17 +255,17 @@ void HandleGameInput()
 		}
 		if(kDown & KEY_UP)
 		{
-			if (!CheckRotationCollisions(g_FocusBlock, RIGHT))
-			{
-				g_FocusBlock->Rotate(RIGHT);
-			}
-		}		
-		if(kDown & KEY_A)
-		{
 			while ( !CheckWallCollisions(g_FocusBlock, DOWN) &&
 				 !CheckEntityCollisions(g_FocusBlock, DOWN) )
 			{
 				g_FocusBlock->Move(DOWN);
+			}
+		}		
+		if(kDown & KEY_A)
+		{
+			if (!CheckRotationCollisions(g_FocusBlock, RIGHT))
+			{
+				g_FocusBlock->Rotate(RIGHT);
 			}
 		}
 		
@@ -286,8 +283,6 @@ void HandleGameInput()
 		{
 			down_pressed = false;
 		}
-		
-		printf("\x1b[18;0Hsrv_get_microseconds() - g_KeyPressTimer = %f", srv_get_microseconds() - g_KeyPressTimer);
 		
 		if(srv_get_microseconds() - g_KeyPressTimer >= 2.5*16000.0)
 		{

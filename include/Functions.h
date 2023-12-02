@@ -106,7 +106,6 @@ void saveHighScores(bool def=false)
 		FILE * file = fopen("highScores.bin", "w");
 		if(file == NULL)
 		{
-			aptSetStatusPower(APP_EXITING);
 			return;
 		}
 		for(int i=0;i<10;i++)
@@ -124,7 +123,6 @@ void saveHighScores(bool def=false)
 		FILE * file = fopen("highScores.bin", "w+");
 		if(file == NULL)
 		{
-			aptSetStatusPower(APP_EXITING);
 			return;
 		}
 		for(int i=0;i<10;i++)
