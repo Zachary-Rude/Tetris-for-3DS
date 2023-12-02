@@ -33,3 +33,6 @@
 *.cia
 *.elf
 *.3dsx
+
+# Image header files
+*_bgr.h
