@@ -69,12 +69,16 @@ bool quit = false;
 bool down_pressed = false;
 bool left_pressed = false;
 bool right_pressed = false;
+u32 clrClear = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
 
 int main(int argc, char **argv)
 {
 	aptInit();
 	gfxInitDefault();
 	gfxSet3D(false);
+	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
+	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
+	C2D_Prepare();
 	ClearScreenBuffer(GFX_TOP);
 	consoleInit(GFX_BOTTOM, NULL);
 	loadHighScores();
@@ -228,6 +232,9 @@ void Shutdown()
 	{
 		delete g_OldSquares[i];
 	}
+
+	C2D_Fini();
+	C3D_Fini();
 }
 
 void HandleGameInput()

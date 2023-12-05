@@ -78,7 +78,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lctru -lm
+LIBS	:= -lcitro2d -lcitro3d -lctru -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -153,55 +153,51 @@ endif
 .PHONY: all clean
 
 #---------------------------------------------------------------------------------
-all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+#---------------------------------------------------------------------------------
+ifeq ($(strip $(IMAGEMAGICK)),)
 
-#------------------------------------------------------------------------------
-clean:
-	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).3dsx $(TARGET).cia $(TARGET).smdh app/*.bin 
-	@rm -fr $(OUTDIR)
+all:
+	@echo "Image Magick not found!"
+	@echo
+	@echo "Please install Image Magick from http://www.imagemagick.org/ to build this example"
 
-#---------------------------------------------------------------------------------
-send:
-	@3dslink -a $(IP) $(TARGET).3dsx
-#---------------------------------------------------------------------------------
-run:
-	@flatpak run org.citra_emu.citra $(TARGET).3dsx
-#---------------------------------------------------------------------------------
-andsend:
-	@make all
-	@3dslink -a $(IP) $(TARGET).3dsx
-#---------------------------------------------------------------------------------
-cia: $(BUILD)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile cia
+else
 
-#---------------------------------------------------------------------------------
-3dsx: $(BUILD)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile 3dsx
+all: $(BUILD)
 
-#---------------------------------------------------------------------------------
-$(GFXBUILD)/%.t3x	$(BUILD)/%.h	:	%.t3s
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	$(DEVKITPRO)/tools/bin/tex3ds -i $< -H $(BUILD)/$*.h -d $(DEPSDIR)/$*.d -o $(GFXBUILD)/$*.t3x
+endif
 
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
+clean:
+	@echo clean ...
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).cia $(TARGET).elf
+
+
+#---------------------------------------------------------------------------------
+cia: $(BUILD)
+	$(BANNERTOOL) makebanner -i "app/banner.png" -a "app/BannerAudio.wav" -o "app/banner.bin"
+
+	$(BANNERTOOL) makesmdh -i "app/icon.png" -s "$(APP_TITLE)" -l "$(APP_TITLE)" -p "$(APP_AUTHOR)" -o "app/icon.bin"
+
+	$(MAKEROM) -f cia -target t -exefslogo -o "$(OUTPUT).cia" -elf "$(OUTPUT).elf" -rsf "app/build-cia.rsf" -banner "app/banner.bin" -icon "app/icon.bin" -DAPP_ROMFS="$(TOPDIR)/$(ROMFS)" -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO) -DAPP_VERSION_MAJOR="$(VERSION_MAJOR)"
+
 else
+
+DEPENDS	:=	$(OFILES:.o=.d)
 
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-all: $(OUTPUT).cia $(OUTPUT).elf $(OUTPUT).3dsx
-
+ifeq ($(strip $(NO_SMDH)),)
 $(OUTPUT).3dsx	:	$(OUTPUT).elf $(OUTPUT).smdh
-
-$(OUTPUT).elf	:	$(OFILES)
-
+else
+$(OUTPUT).3dsx	:	$(OUTPUT).elf
+endif
 $(OUTPUT).cia	:	$(OUTPUT).elf $(OUTPUT).smdh
 	$(BANNERTOOL) makebanner -i "../app/banner.png" -a "../app/BannerAudio.wav" -o "../app/banner.bin"
 

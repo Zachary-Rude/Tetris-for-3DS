@@ -5,8 +5,11 @@
 
 #pragma once
 
+#include <citro2d.h>
+#include <citro3d.h>
 #include "Enums.h"
 #include "Defines.h"
+
 
 struct R {
 	int x, y, width, height;
@@ -21,6 +24,15 @@ private:
 
 	// Type of block. Needed to locate the correct square in our bitmap
 	BlockType m_BlockType;
+
+	// Definitions for colors
+	u32 clrBlue = C2D_Color32(0x00, 0x00, 0xFF, 0xFF);
+	u32 clrGreen = C2D_Color32(0x00, 0xFF, 0x00, 0xFF);
+	u32 clrRed = C2D_Color32(0xFF, 0x00, 0x00, 0xFF);
+	u32 clrYellow = C2D_Color32(0xFF, 0xFF, 0x00, 0xFF);
+	u32 clrPurple = C2D_Color32(0x7F, 0x00, 0xFF24, 0xFF);
+	u32 clrOrange = C2D_Color32(0xFF, 0x6A, 0x00, 0xFF);
+	u32 clrLightBlue = C2D_Color32(0x00, 0xFF, 0xFF, 0xFF);
 
 public:
 	// Default constructor, your compiler will probably require this
