@@ -1,0 +1,9 @@
+--atlas -f rgba -z auto
+
+block_blue.png
+block_green.png
+block_lightblue.png
+block_orange.png
+block_purple.png
+block_red.png
+block_yellow.png
