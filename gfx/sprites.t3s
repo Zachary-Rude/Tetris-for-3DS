@@ -1,5 +1,6 @@
 --atlas -f rgba8888 -z auto
 
+background.png
 block_blue.png
 block_green.png
 block_lightblue.png
