@@ -1,0 +1,10 @@
+#include <3ds.h>
+#include <citro2d.h>
+#include <citro3d.h>
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <malloc.h>
+#include <inttypes.h>

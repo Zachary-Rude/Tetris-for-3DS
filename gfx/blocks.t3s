@@ -1,4 +1,4 @@
---atlas -f rgba -z auto
+--atlas -f rgba8888 -z auto
 
 block_blue.png
 block_green.png
