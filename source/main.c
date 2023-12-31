@@ -23,20 +23,21 @@ static C2D_SpriteSheet spriteSheet;
 static Sprite sprites[MAX_SPRITES];
 static size_t numSprites = MAX_SPRITES / 2;
 
-static void initSprites() {
-	size_t numImages = C2D_SpriteSheetCount(spriteSheet);
-	srand(time(NULL));
+typedef enum {
+	NONE,
+  SQUARE_BLOCK,
+  T_BLOCK,
+  L_BLOCK,
+  BACKWARDS_L_BLOCK,
+  STRAIGHT_BLOCK,
+  S_BLOCK,
+  BACKWARDS_S_BLOCK
+} BlockType;
 
-	for (size_t i = 0; i < MAX_SPRITES; i++) {
-		Sprite *sprite = &sprites[i];
+enum Direction { LEFT, RIGHT, DOWN };
 
-		// Random image, position, rotation and speed
-		C2D_SpriteFromSheet(&sprite->spr, spriteSheet, rand() % numImages);
-		C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-		C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH,
-										 rand() % SCREEN_HEIGHT);
-		C2D_SpriteSetRotation(&sprite->spr, C3D_Angle(rand() / (float)RAND_MAX));
-		sprite->dx = rand() * 4.0f / RAND_MAX - 2.0f;
-		sprite->dy = rand() * 4.0f / RAND_MAX - 2.0f;
-	}
+static BlockType board[12][10];
+
+void initBackground() {
+	
 }
