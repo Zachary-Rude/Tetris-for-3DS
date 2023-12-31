@@ -176,7 +176,7 @@ int main() {
   // init config w/ def. values
   cfg.DAS = 11;
   cfg.DAS_speed = 6;
-  cfg.next_displayed = 5;
+  cfg.next_displayed = 1;
   cfg.invisimode = 0;
   cfg.hold = 1;
   cfg.line_clear_frames = 40;
