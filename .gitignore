@@ -47,3 +47,4 @@
 
 # make build folder
 build/
+*.map
