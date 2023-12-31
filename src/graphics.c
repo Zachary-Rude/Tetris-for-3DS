@@ -485,9 +485,9 @@ Initializes graphics.
 */
 void graphics_init() {
   sf2d_init();
-  sf2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
+  sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
   gfxSet3D(1);
-  consoleInit(GFX_BOTTOM, NULL);
+  //consoleInit(GFX_BOTTOM, NULL);
 }
 
 /*

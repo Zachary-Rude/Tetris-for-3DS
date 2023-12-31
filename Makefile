@@ -81,13 +81,13 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lsfil -lpng -ljpeg -lz -lsf2d -lctru -lm -ltremor
+LIBS	:= -lsfil -lpng -ljpeg -lz -lsf2d -lctru -lm -ltremor -lg
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB) $(PORTLIBS)
+LIBDIRS	:= $(CTRULIB) $(PORTLIBS) 
 
 
 #---------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ cci: $(TARGET)-strip.elf
 	@echo "built ... sfil_sample.3ds"
 #---------------------------------------------------------------------------------
 cia: $(TARGET)-strip.elf
-  $(BANNERTOOL) makebanner -i app/banner.png -a app/BannerAudio.wav -o app/banner.bin
+	$(BANNERTOOL) makebanner -i app/banner.png -a app/BannerAudio.wav -o app/banner.bin
 	$(BANNERTOOL) makesmdh -i app/icon.png -s $(APP_TITLE) -l "$(APP_TITLE)" -p "$(APP_AUTHOR)" -o app/icon.bin
 	$(MAKEROM) -f cia -o $(TARGET).cia -elf $(TARGET)-strip.elf -icon app/icon.bin -banner app/banner.bin -rsf resources/build-cia.rsf -exefslogo -target t
 	@echo "built ... sfil_sample.cia"
