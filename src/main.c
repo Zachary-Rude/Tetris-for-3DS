@@ -1,4 +1,3 @@
-#include "audio.h"
 #include "graphics.h"
 #include "level.h"
 #include "structs.h"
@@ -223,11 +222,9 @@ init:
     case MODE_TETRIS:
       tetris_control(kDown);
       if (!paused && !gameover) {
-        audio_music_check();
         if (controllable)
           do_gravity();
       } else
-        audio_music_pause();
       render_frames();
 
       break;
